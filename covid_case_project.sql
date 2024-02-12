@@ -1,12 +1,16 @@
+# Viewing Data
+
 SELECT *
 FROM covid_deaths
 WHERE continent <> ''
+;
 
 # Select Data we need
 
 SELECT continent, date, total_cases, new_cases, total_deaths, population
 FROM covid_deaths
 order by 1, 2
+;
 
 # Looking at Total Cases vs Total Deaths
 # Shows likelyhood of dying if you get covid in your country
@@ -54,14 +58,6 @@ GROUP BY continent
 ORDER BY highest_death_count DESC
 ;
 
-# Breaking Global numbers
-
-SELECT SUM(new_cases) AS total_cases, SUM(CAST(new_deaths AS UNSIGNED)) AS total_deaths, ROUND(SUM(new_deaths)/SUM(new_cases)*100,2) AS death_percentage_globaly
-FROM covid_deaths
-WHERE continent <> ''
-#GROUP BY date
-ORDER BY 1,2
-;
 
 # Breaking Global numbers per day
 
@@ -101,6 +97,39 @@ SELECT *, ROUND((rolling_people_vaccinated/population)*100,2) AS percentage_peop
 FROM PopvsVac
 ;
 
-SELECT *
-FROM `percent_population_vaccinated`
+## For Tableau
 
+#1 Breaking Global numbers
+
+SELECT SUM(new_cases) AS total_cases, SUM(new_deaths) AS total_deaths, ROUND(SUM(new_deaths)/SUM(new_cases)*100,2) AS death_percentage_globaly
+FROM covid_deaths
+WHERE continent <> ''
+ORDER BY 1,2
+;
+
+
+#2 Showing Continents with highest death count
+
+SELECT location, SUM(new_deaths) AS total_death_count
+FROM covid_deaths
+WHERE continent = ''
+AND location NOT IN ('World', 'European Union', 'International')
+GROUP BY location
+ORDER BY total_death_count DESC
+;
+
+#3 Countries with highest infection rates compared to population
+
+SELECT location, Population, MAX(total_cases) AS highest_infection_count, ROUND(MAX(total_cases/population)*100,2) AS covid_infected_percentage
+FROM covid_deaths
+GROUP BY location, Population
+ORDER BY covid_infected_percentage DESC
+;
+
+#4 Countries with highest infection rates compared to population - grouped by date
+
+SELECT location, Population,date, MAX(total_cases) AS highest_infection_count, ROUND(MAX(total_cases/population)*100,2) AS covid_infected_percentage
+FROM covid_deaths
+GROUP BY location, Population, date
+ORDER BY covid_infected_percentage DESC
+;
