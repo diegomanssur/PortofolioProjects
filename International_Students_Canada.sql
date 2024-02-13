@@ -1,4 +1,4 @@
-#Viewing Data
+# Viewing Data
 
 SELECT * 
 FROM international_students_canada
