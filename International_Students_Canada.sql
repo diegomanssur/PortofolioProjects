@@ -1,4 +1,4 @@
-# Viewing Data
+#Viewing Data
 
 SELECT * 
 FROM international_students_canada
@@ -185,11 +185,11 @@ FROM international_students_canada
 
 SELECT year, 
        total_students,
-       total_students - LAG(total_students) OVER(ORDER BY year ASC) AS students_growth,
-       ROUND((total_students-LAG(total_students) OVER(ORDER BY year ASC))/LAG(total_students) OVER(ORDER BY year ASC)*100,2) AS international_students_growth
+       total_students - LAG(total_students) OVER(ORDER BY year ASC) AS international_students_growth,
+      # ROUND((total_students-LAG(total_students) OVER(ORDER BY year ASC))/LAG(total_students) OVER(ORDER BY year ASC)*100,2) AS international_students_growth_percentage
+       (((total_students-227340)/227340)*100) AS international_students_growth_percentage
 FROM pivot_total_students_years
 ;
-
 
 # Delete headers from data
 
@@ -238,4 +238,3 @@ GROUP BY `Province/territory`, `Sex`
 HAVING total_international_students_province >0
 ORDER BY total_international_students_province DESC, `Sex`, `Province/territory`
 ;
-
