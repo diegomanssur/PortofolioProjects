@@ -2,7 +2,7 @@
 
 # Viewing Data
 
-SELECT * 
+SELECT COUNT(`Person ID`)
 FROM sleep_lifestyle_health
 ;
 
@@ -116,17 +116,6 @@ FROM sleep_lifestyle_health
 GROUP BY Occupation
 ORDER BY Average_Sleep_Quality DESC
 ;
-
-# Correlation betweeen Sleep Quality and Daily Steps
-
-SELECT Occupation,
-ROUND(AVG(`Quality of Sleep`),2) AS Average_Sleep_Quality,
-ROUND(AVG(`Daily Steps`),2) AS Average_Daily_Steps
-FROM sleep_lifestyle_health
-GROUP BY Occupation
-ORDER BY Average_Sleep_Quality DESC
-;
-
 
 
 # Sleep Disorders per BMI Category
